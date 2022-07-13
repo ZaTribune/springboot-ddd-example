@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: tribune
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: *
+
+#keycloak user client properties
+keycloak:
+  auth-server-url: http://${host}:8080/auth/
+  realm: tribune
+  resource: tribune-user
+  credentials:
+    secret: ${keycloak.credentials.secret}
+  ssl-required: external
+  principal-attribute: preferred_username
+  use-resource-role-mappings: true
+  bearer-only: true
+
+#keycloak.policy-enforcer-config.enforcement-mode=ENFORCING
+
+#keycloak admin client properties
+tribune:
+  keycloak:
+    client:
+      user-management:
+        resource: tribune-user-management
+        client-secret: oT9cm9JhbJH5owI444FxS4DPKLdIpKel
+        username: users.admin@paywithtribune.com
+        password: 1234
+#app.cors.allowed-origins=https://localhost:8880
+
+#if needed for any reason by frontend
+#app.cors.allowed-origins: http://localhost:port
+logging:
+  level:
+    org:
+      keycloak: DEBUG
+      springframework:
+        security: DEBUG
+#spring.jackson.serialization.fail-on-empty-beans=false

@@ -1,0 +1,22 @@
+
+## Spring embedded webserver
+server:
+  port: 9090
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  ## Spring datasource config
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: admin
+    password:
+  # H2 specific
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false

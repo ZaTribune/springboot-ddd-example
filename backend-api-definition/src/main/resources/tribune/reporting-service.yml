@@ -1,0 +1,22 @@
+openapi: "3.0.3"
+info:
+  title: "reporting API"
+  description: "reporting API"
+  version: "1.0.0"
+servers:
+  - url: "https://reporting"
+paths:
+  /reporting/generate/{type}:
+    post:
+      summary: "POST reporting/generate/{type}"
+      operationId: "generate"
+      parameters:
+        - name: "type"
+          in: "path"
+          required: true
+          schema:
+            type: string
+          example: "PDF"
+      responses:
+        "200":
+          description: "OK"

@@ -1,0 +1,72 @@
+version: '3.8'
+
+networks:
+  tribune-network:
+    name: tribune-network
+
+services:
+  app:
+    image: 'tribune-backend:latest'
+    build:
+      context: ../../../../..
+      dockerfile: ./infrastructure/docker/dev/Dockerfile
+    container_name: app
+    depends_on:
+      - db
+    ports:
+      - '8880:8880'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/tribune_db_docker
+      - SPRING_DATASOURCE_USERNAME=tribune_db_user
+      - SPRING_DATASOURCE_PASSWORD=password
+    labels:
+      collect_logs_with_filebeat: 'true'
+      decode_log_event_to_json_object: 'true'
+    networks:
+      - tribune-network
+
+  db:
+    image: 'postgres:13.1-alpine'
+    restart: unless-stopped
+    container_name: db
+    environment:
+      #default superuser
+      POSTGRES_USER: tribune_db_user
+      ##default superuser password
+      POSTGRES_PASSWORD: password
+      ##default database
+      POSTGRES_DB: tribune_db_docker
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./db:/var/lib/postgresql/data
+      - ./create_keycloak_db.sh:/docker-entrypoint-initdb.d/create_keycloak_db.sh
+    labels:
+      collect_logs_with_filebeat: 'true'
+      decode_log_event_to_json_object: 'true'
+    networks:
+      - tribune-network
+
+  keycloak:
+    image: bitnami/keycloak:18
+    container_name: keycloak
+    environment:
+      DB_VENDOR: POSTGRES
+      #by service name
+      DB_ADDR: db
+      #database name
+      DB_DATABASE: keycloak_db
+      DB_USER: keycloak
+      DB_PASSWORD: keycloak
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: Pass@1234
+      # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+      #JDBC_PARAMS: "ssl=true"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - tribune-network
+
+
