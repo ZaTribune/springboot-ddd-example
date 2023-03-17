@@ -1,13 +1,13 @@
 package com.tribune.backend.domain.service;
 
-import com.tribune.backend.domain.dto.customer.Customer;
+import com.tribune.backend.domain.element.customer.Customer;
 
 import java.util.List;
 import java.util.UUID;
 
 /**
  * Please note that adapter implementation should NOT contain any business logic.
- * All operations with Domain objects should be initiated and encapsulated only in domain module
+ * All operations with Domain element should be initiated and encapsulated only in domain module
  */
 public interface CustomerRepositoryAdapter {
 

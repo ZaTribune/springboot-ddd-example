@@ -1,12 +1,14 @@
 package com.tribune.backend.domain.context;
 
-import com.tribune.backend.domain.AggregateRoot;
-import com.tribune.backend.domain.dto.customer.Customer;
-import com.tribune.backend.domain.dto.order.Order;
+import com.tribune.backend.domain.element.AggregateRoot;
+import com.tribune.backend.domain.element.customer.Customer;
+import com.tribune.backend.domain.element.order.Order;
+import com.tribune.backend.domain.element.order.lineitem.product.Product;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -17,4 +19,6 @@ public class CustomerOrder extends AggregateRoot<UUID> {
 
     private Customer customer;
     private Order order;
+
+    private List<Product>products;
 }

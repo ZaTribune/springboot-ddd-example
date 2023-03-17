@@ -1,27 +1,22 @@
 package com.tribune.backend.domain.dto;
 
 
-import com.tribune.backend.domain.enums.BlogStatus;
+import com.tribune.backend.domain.element.order.Order;
+import com.tribune.backend.domain.element.order.lineitem.product.Product;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Builder
 public class SingleOrderResponse {
 
-    private String id;
+    private Order order;
 
-    private String title;
+    private BigDecimal totalCost;
 
-    private String content;
+    private List<Product> products;
 
-    private BlogStatus status;
-
-    private String appUser;
-
-    private LocalDateTime creationTimestamp;
-
-    private LocalDateTime updateTimestamp;
 }

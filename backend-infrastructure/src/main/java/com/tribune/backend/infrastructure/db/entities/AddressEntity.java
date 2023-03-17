@@ -2,11 +2,11 @@ package com.tribune.backend.infrastructure.db.entities;
 
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -16,13 +16,21 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name ="ADDRESS")
 public class AddressEntity {
 
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @Column(name = "CUSTOMER")
+    private UUID customer;
 
-    @ManyToOne
-    @JoinColumn(name = "customer",referencedColumnName = "id")
-    private CustomerEntity customerEntity;
+    @CreationTimestamp
+    @Column(name = "CREATION_TIMESTAMP",nullable = false,updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime creationTimestamp;
+
+    @UpdateTimestamp
+    @Column(name = "UPDATE_TIMESTAMP",nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime updateTimestamp;
 }

@@ -3,10 +3,12 @@ package com.tribune.backend.infrastructure.services;
 import com.tribune.backend.domain.dto.*;
 import com.tribune.backend.infrastructure.db.entities.OrderEntity;
 
+import com.tribune.backend.infrastructure.error.NotFoundException;
+
 public interface OrderService {
 
     OrderEntity getById(String id);
-    SingleOrderResponse placeOrder(PlaceOrderRequest placeOrderRequest);
+    SingleOrderResponse processOrder(SubmitOrderRequest submitOrderRequest) throws NotFoundException;
 
     OrderEntity updateOrder(String id, UpdateOrderRequest updateOrderRequest);
 

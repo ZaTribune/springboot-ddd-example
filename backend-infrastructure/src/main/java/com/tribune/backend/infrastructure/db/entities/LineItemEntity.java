@@ -12,14 +12,21 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name ="LINE_ITEM")
 public class LineItemEntity {
 
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+
+    @Column(name = "customer_order")
+    private Long customerOrder;
+
+
+    @JoinColumn(name = "product",referencedColumnName = "id")
     @ManyToOne
-    private OrderEntity orderEntity;
+    private ProductEntity product;
 
-    @OneToOne
-    private ProductEntity productEntity;
+    private Integer quantity;
 }

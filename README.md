@@ -42,15 +42,15 @@ Your domain on the other hand will always be there.
 should be modified following strong consistency principle (oppose to domain events 
 and eventual consistency for cross aggregation root changes).
 
-
+## Use cases
+### 1. Communication between layers
+On this demo we'll try to execute a simple business case of submitting an order
+which will be initially handled by the infrastructure layer and then passed
+to domain layer to be processed (Where business happens), then return the result
+back to infrastructure layer.
 ## Deployment notes
-
-Environment Variables:  
-* host
-* keycloak.credentials.secret
-
-
-
+This project uses embedded DB: [h2-console](http://localhost:8081/h2-console).  
+You can test via requests found on this [postman collections file](ddd.postman_collection.json).
 ## Authors
 [![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&label=Muhammad%20Ali)](https://linkedin.com/in/zatribune)
 
