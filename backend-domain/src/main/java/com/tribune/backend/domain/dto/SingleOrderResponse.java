@@ -1,8 +1,8 @@
 package com.tribune.backend.domain.dto;
 
 
-import com.tribune.backend.domain.element.order.Order;
-import com.tribune.backend.domain.element.order.lineitem.product.Product;
+import com.tribune.backend.domain.context.element.order.Order;
+import com.tribune.backend.domain.context.element.order.lineitem.product.Product;
 import lombok.Builder;
 import lombok.Data;
 

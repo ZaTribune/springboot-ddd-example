@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @Slf4j
 @AllArgsConstructor
@@ -22,7 +22,7 @@ public class OrdersController {
     @PostMapping("/submitOrder")
     public GenericResponse<SingleOrderResponse> placeOrder(@Valid @RequestBody SubmitOrderRequest createOrderRequest) throws NotFoundException {
 
-        SingleOrderResponse orderResponse=orderService.processOrder(createOrderRequest);
+        SingleOrderResponse orderResponse = orderService.processOrder(createOrderRequest);
 
 
         return GenericResponse.<SingleOrderResponse>builder()

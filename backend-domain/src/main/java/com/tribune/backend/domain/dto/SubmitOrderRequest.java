@@ -1,10 +1,10 @@
 package com.tribune.backend.domain.dto;
 
-import com.tribune.backend.domain.element.order.Order;
+import com.tribune.backend.domain.context.element.order.Order;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
@@ -18,6 +18,9 @@ public class SubmitOrderRequest {
 
     @NotNull
     private Long user;
+
+    @NotNull
+    private Long address;
 
 
     @NotNull

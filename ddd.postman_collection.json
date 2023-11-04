@@ -1,9 +1,10 @@
 {
 	"info": {
 		"_postman_id": "6d21917e-ffb7-4d21-a4b8-f84be40a9872",
-		"name": "ddd",
+		"name": "Demo - Domain Driven Design",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "14524570"
+		"_exporter_id": "14524570",
+		"_collection_link": "https://cloudy-crater-878009.postman.co/workspace/microservices-course~abfc7e2e-b9e4-43cc-9254-079e3b0023a2/collection/14524570-6d21917e-ffb7-4d21-a4b8-f84be40a9872?action=share&source=collection_link&creator=14524570"
 	},
 	"item": [
 		{
@@ -13,7 +14,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"content\": \"Dummy Order\",\r\n    \"user\": 1,\r\n    \"order\": {\r\n        \"lineItems\": [\r\n            {\r\n                \"product\": 1,\r\n                \"quantity\": 5\r\n            },{\r\n                \"product\": 2,\r\n                \"quantity\": 3\r\n            }\r\n        ],\r\n        \"payment\": 1500.5\r\n    }\r\n}",
+					"raw": "{\r\n    \"content\": \"Dummy Order\",\r\n    \"user\": 1,\r\n    \"address\":3,\r\n    \"order\": {\r\n        \"lineItems\": [\r\n            {\r\n                \"product\": 1,\r\n                \"quantity\": 5\r\n            },{\r\n                \"product\": 2,\r\n                \"quantity\": 3\r\n            }\r\n        ],\r\n        \"payment\": 1200\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

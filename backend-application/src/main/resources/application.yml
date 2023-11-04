@@ -17,7 +17,7 @@ spring:
       ddl-auto: create-drop
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
     show-sql: true
     open-in-view: false
+    defer-datasource-initialization: true

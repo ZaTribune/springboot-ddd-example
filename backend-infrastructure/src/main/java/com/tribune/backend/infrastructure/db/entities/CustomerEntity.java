@@ -1,15 +1,16 @@
 package com.tribune.backend.infrastructure.db.entities;
 
 
-import com.tribune.backend.domain.element.customer.CustomerState;
-import com.tribune.backend.domain.element.customer.CustomerType;
+import com.tribune.backend.domain.context.element.customer.CustomerState;
+import com.tribune.backend.domain.context.element.customer.CustomerType;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -21,7 +22,7 @@ import java.util.List;
 public class CustomerEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String displayName;
@@ -36,14 +37,14 @@ public class CustomerEntity {
     @Enumerated(value = EnumType.STRING)
     private CustomerType type;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
-    private List<PaymentEntity> paymentEntityList;
+    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    private List<PaymentEntity> payments;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
-    private List<AddressEntity> addressEntityList;
+    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    private List<AddressEntity> addresses;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
-    private List<InvoiceEntity> invoiceEntityList;
+    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    private List<InvoiceEntity> invoices;
 
     @CreationTimestamp
     @Column(name = "CREATION_TIMESTAMP",nullable = false,updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

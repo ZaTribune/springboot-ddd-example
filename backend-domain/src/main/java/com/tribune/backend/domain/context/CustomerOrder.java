@@ -1,9 +1,9 @@
 package com.tribune.backend.domain.context;
 
-import com.tribune.backend.domain.element.AggregateRoot;
-import com.tribune.backend.domain.element.customer.Customer;
-import com.tribune.backend.domain.element.order.Order;
-import com.tribune.backend.domain.element.order.lineitem.product.Product;
+import com.tribune.backend.domain.context.element.AggregateRoot;
+import com.tribune.backend.domain.context.element.customer.Customer;
+import com.tribune.backend.domain.context.element.order.Order;
+import com.tribune.backend.domain.context.element.order.lineitem.product.Product;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
@@ -16,9 +16,9 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class CustomerOrder extends AggregateRoot<UUID> {
 
-
     private Customer customer;
+
     private Order order;
 
-    private List<Product>products;
+    private List<Product> products;
 }

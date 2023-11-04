@@ -2,11 +2,14 @@ package com.tribune.backend.infrastructure.services;
 
 
 import com.tribune.backend.domain.context.CustomerOrder;
+import com.tribune.backend.domain.context.element.customer.Customer;
+import com.tribune.backend.domain.context.element.order.lineitem.LineItem;
 import com.tribune.backend.domain.dto.*;
-import com.tribune.backend.domain.element.customer.Customer;
-import com.tribune.backend.domain.element.order.lineitem.LineItem;
 import com.tribune.backend.domain.enums.OrderStatus;
-import com.tribune.backend.domain.service.PlaceOrderAdapter;
+import com.tribune.backend.domain.event.CustomSpringEvent;
+import com.tribune.backend.domain.event.EventBus;
+import com.tribune.backend.domain.event.EventType;
+import com.tribune.backend.domain.service.SubmitOrderAdapter;
 import com.tribune.backend.infrastructure.db.entities.CustomerEntity;
 import com.tribune.backend.infrastructure.db.entities.OrderEntity;
 import com.tribune.backend.infrastructure.db.entities.ProductEntity;
@@ -22,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 
 @Slf4j
@@ -32,17 +35,16 @@ public class OrderServiceImpl implements OrderService {
 
     private final CustomerRepository customerRepository;
     private final ProductRepository productRepository;
-
     private final OrderRepository orderRepository;
 
-    private final PlaceOrderAdapter adapter;
-
+    private final SubmitOrderAdapter submitOrderAdapter;
 
     private final CustomerMapperImpl customerMapper;
-
     private final OrderMapperImpl orderMapper;
-
     private final ProductMapperImpl productMapper;
+
+
+    private final EventBus eventBus;
 
 
     @Override
@@ -54,24 +56,26 @@ public class OrderServiceImpl implements OrderService {
     public SingleOrderResponse processOrder(SubmitOrderRequest submitOrderRequest) throws NotFoundException {
 
         log.info("Process order - {}", submitOrderRequest);
-        // now I'm on infrastructure
-        // I need to execute a business case
-        // Business is executed on domain
-        // how will I execute this business on domain?
-        // I need to obtain info about this business case and transform it to domain element encapsulated within a bounded context
-        // then be transferred to the domain
+        // Now I'm on the infrastructure layer, and I need to execute a business case.
+        // Business is executed on the domain layer.
+        // Q: How will I execute this business on domain?
+        // I need to obtain info about this business case
+        // and transform it into a domain object encapsulated within a bounded context
+        // then be transferred to the domain.
 
+        //Validate customer
         CustomerEntity customerEntity = customerRepository.findById(submitOrderRequest.getUser())
                 .orElseThrow(() -> new NotFoundException("No customer was found by the given id"));
 
-
-        // same with product list
+        //Validate product list
         List<Long> ids = submitOrderRequest.getOrder().getLineItems()
-                .stream().map(LineItem::getProduct).collect(Collectors.toList());
+                .stream().map(LineItem::getProduct).toList();
         log.info("product ids:{}", ids);
-        List<ProductEntity> productEntities = productRepository.findByIdIn(ids);
+
+        List<ProductEntity> productEntities = productRepository.getAllByIdIn(ids);
 
         log.info("products - {}", productEntities);
+
 
         Customer customer = customerMapper.toCustomer(customerEntity);
 
@@ -80,26 +84,35 @@ public class OrderServiceImpl implements OrderService {
         orderEntity.setStatus(OrderStatus.INITIALIZED);
         orderRepository.saveAndFlush(orderEntity);
 
-
-        //map the customer and the order entity to domain element
+        //map the customer and the order entity to a domain element
         //this way we provide input verification ___here's the result after persisting to db
+
+        UUID customerOrderContextUuid = UUID.randomUUID();
         CustomerOrder customerOrder = CustomerOrder.builder()
+                .id(customerOrderContextUuid)
                 .customer(customer)
-                .order(orderMapper.toOrder(orderEntity))
-                .products(productEntities.stream().map(productMapper::toProduct).collect(Collectors.toList()))
+                .order(submitOrderRequest.getOrder())
+                .products(productEntities.stream().map(productMapper::toProduct)
+                        .toList())
                 .build();
 
+
         //after obtaining all info here now it's time to move them to domain to be executed
-
-        SingleOrderResponse response = adapter.validateOrder(customerOrder);
-
+        SingleOrderResponse response = submitOrderAdapter.validateOrder(customerOrder);
 
         //persist quantities
-        productRepository.saveAll(response.getProducts().stream().map(productMapper::toProductEntity).collect(Collectors.toList()));
+        productRepository.saveAll(response.getProducts().stream().map(productMapper::toProductEntity).toList());
 
         orderEntity.setStatus(OrderStatus.SUBMITTED);
 
-        orderRepository.save(orderEntity);
+        Long orderId = orderRepository.save(orderEntity).getId();
+
+        CustomSpringEvent event = new CustomSpringEvent(submitOrderRequest.getAddress(),
+                "Hello communication",
+                EventType.SHIPPING_INITIALIZE);
+        event.setData(orderId);
+
+        eventBus.publish(event);
 
         return response;
     }
