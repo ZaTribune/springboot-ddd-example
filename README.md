@@ -44,21 +44,23 @@ Your domain on the other hand will always be there.
 
   ```json
   {
-    "content": "Dummy Order",
-    "user": 1,
-    "order": {
-        "lineItems": [
-            {
-                "product": 1,
-                "quantity": 5
-            },{
-                "product": 2,
-                "quantity": 3
-            }
-        ],
-        "payment": 1500.5
-    }
+  "content": "Dummy Order",
+  "user": 1,
+  "address": 3,
+  "order": {
+    "lineItems": [
+      {
+        "product": 1,
+        "quantity": 5
+      },
+      {
+        "product": 2,
+        "quantity": 3
+      }
+    ],
+    "payment": 1500.5
   }
+}
   ```
 2. This request will be validated on the infrastructure layer before proceeding to the domain layer;
 As we're going to check for the availability of those items,
