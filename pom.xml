@@ -5,9 +5,10 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>backend-domain</module>
-        <module>backend-infrastructure</module>
-        <module>backend-application</module>
+        <module>domain</module>
+        <module>infrastructure</module>
+        <module>application</module>
+        <module>api-definition</module>
     </modules>
 
     <groupId>com.tribune</groupId>
@@ -29,6 +30,7 @@
         <mapstruct.version>1.5.4.Final</mapstruct.version>
         <lombok.version>1.18.30</lombok.version><!-- caused by Mapstruct limitation-->
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <openapi-generator-maven-plugin.version>7.0.1</openapi-generator-maven-plugin.version>
     </properties>
     <repositories>
         <!-- if needed -->
@@ -58,22 +60,22 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>backend-application</artifactId>
+                <artifactId>application</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>backend-api-definition</artifactId>
+                <artifactId>api-definition</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>backend-domain</artifactId>
+                <artifactId>domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>backend-infrastructure</artifactId>
+                <artifactId>infrastructure</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -88,14 +90,14 @@
             <!--  Test dependencies   -->
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>backend-domain</artifactId>
+                <artifactId>domain</artifactId>
                 <version>${project.version}</version>
                 <type>test-jar</type>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>backend-infrastructure</artifactId>
+                <artifactId>infrastructure</artifactId>
                 <version>${project.version}</version>
                 <type>test-jar</type>
                 <scope>test</scope>

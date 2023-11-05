@@ -82,7 +82,7 @@ should be modified following strong consistency principle (oppose to domain even
 and eventual consistency for cross-aggregation root changes).
 
 ### Ubiquitous language
-People working within a context use a language of their own, and some things expressed differently from one context to another.  
+People working within a context use a language of their own, and s+ome things expressed differently from one context to another.  
 Example: On a bookstore app, the book is expressed differently on `Warehouse` context and `Shipping` context.  
 - On `Shipping`, it will have address and some shipping details.
 - On `Warehouse`, it will have ISBN, author, category ...etc.  
@@ -92,7 +92,7 @@ On this Example: The Customer is expressed differently on `ShippingProcess`
 - On `ShippingProcess`, it has just an id and name.
 - On `CustomerOrder`, it will have id, firstName, lastName ...etc.
 
-## Examples covered in this demo
+## Features covered in this demo
 ### 1. Communication between layers
 On this demo we'll try to execute a simple business case of submitting an order,
 which will be initially handled by the infrastructure layer,
@@ -100,7 +100,10 @@ and then passed to the domain layer to be processed (Where business happens),
 then return the result back to the infrastructure layer.
 
 ### 2. Event-Driven
-Using a simple event bus implementation, we can communicate events & data across the application from bounded contexts.
+Using a simple event bus implementation, 
+we can communicate events & data across the application from bounded contexts.
+
+
 ## Deployment notes
 This project uses embedded DB: [h2-console](http://localhost:8081/h2-console).  
 You can test via requests found on this [postman collections file](ddd.postman_collection.json).

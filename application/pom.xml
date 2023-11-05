@@ -8,7 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>backend-application</artifactId>
+    <artifactId>application</artifactId>
 
     <properties>
 
@@ -19,7 +19,7 @@
         <!-- infrastructure operated-->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>backend-infrastructure</artifactId>
+            <artifactId>infrastructure</artifactId>
         </dependency>
 
         <!--  Test dependencies  -->
@@ -32,12 +32,12 @@
         <!--tests to be made-->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>backend-domain</artifactId>
+            <artifactId>domain</artifactId>
             <type>test-jar</type>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>backend-infrastructure</artifactId>
+            <artifactId>infrastructure</artifactId>
             <type>test-jar</type>
         </dependency>
     </dependencies>

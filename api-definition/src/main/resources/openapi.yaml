@@ -1,0 +1,121 @@
+---
+openapi: "3.0.0"
+info:
+  title: "Domain Driven Design Management API"
+  version: '0.0.1'
+  description: "This is a demo project to demonstrate the concept of DDD (Domain Driven Design) within a monolithic web application."
+  contact:
+    name: 'Orders Management API Support'
+tags:
+  - name: Order
+    description: "Operations related to Order object."
+
+servers:
+  - url: http://{camHost}/v1
+    variables:
+      camHost:
+        default: localhost
+        description: Service host for exposing the service to internal services.
+  - url: https://{camHost}/v1
+    variables:
+      camHost:
+        default: tribune.cam
+        description: Service host for exposing the service to external services.
+
+paths:
+  /orders/submitOrder:
+    post:
+      summary: "POST v1/orders/submitOrder"
+      operationId: "placeOrder"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmitOrderRequest"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SingleOrderResponse"
+
+components:
+  schemas:
+    LineItem:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        order:
+          type: "integer"
+          format: "int64"
+        product:
+          type: "integer"
+          format: "int64"
+        quantity:
+          type: "integer"
+          format: "int32"
+    BigDecimal:
+      type: "object"
+      properties: { }
+    Order:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        status:
+          type: "string"
+          enum:
+            - "INITIALIZED"
+            - "PROCESSING"
+            - "SUBMITTED"
+            - "CANCELLED"
+        lineItems:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/LineItem"
+        payment:
+          $ref: "#/components/schemas/BigDecimal"
+    SubmitOrderRequest:
+      type: "object"
+      properties:
+        content:
+          type: "string"
+        user:
+          type: "integer"
+          format: "int64"
+        address:
+          type: "integer"
+          format: "int64"
+        order:
+          $ref: "#/components/schemas/Order"
+    Product:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        name:
+          type: "string"
+        company:
+          type: "string"
+        quantity:
+          type: "integer"
+          format: "int32"
+        price:
+          $ref: "#/components/schemas/BigDecimal"
+    SingleOrderResponse:
+      type: "object"
+      properties:
+        order:
+          $ref: "#/components/schemas/Order"
+        totalCost:
+          $ref: "#/components/schemas/BigDecimal"
+        products:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Product"

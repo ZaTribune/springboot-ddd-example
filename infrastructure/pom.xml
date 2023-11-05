@@ -8,7 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>backend-infrastructure</artifactId>
+    <artifactId>infrastructure</artifactId>
 
     <properties>
         <java.version>21</java.version>
@@ -18,11 +18,11 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>backend-domain</artifactId>
+            <artifactId>domain</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>backend-api-definition</artifactId>
+            <artifactId>api-definition</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -61,7 +61,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>backend-domain</artifactId>
+            <artifactId>domain</artifactId>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
